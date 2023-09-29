@@ -4,17 +4,17 @@ import edge_tts
 app = FastAPI()
 
 
-@app.post("/")
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+@app.post("/tts")
 async def read_item(request: Request):
-    headers = request.headers
     body = await request.json()
-    # print("headers:", headers)
-    # print("body:", body)
     media_type = 'audio/mpeg'
     params = body
     text = params['text'].strip()
-    print(text)
-
     if 'rate' in params.keys():
         # print(params['rate'], type(params['rate']))
         rate = int(params['rate'])
@@ -36,4 +36,4 @@ async def tts_stream2(communicate):
 
 
 
-# uvicorn mytts2:app --host 0.0.0.0 --port 8999 --reload
+# uvicorn mytts:app --host 0.0.0.0 --port 8999 --reload
